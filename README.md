@@ -1,6 +1,6 @@
 # Vocab Transplantation Tool
 
-Transplants vocabulary between language models, enabling the creation of draft models for speculative decoding **WITHOUT** retraining.
+Transplants vocabulary between language models, enabling the creation of draft models for efficient speculative decoding **WITHOUT** retraining. This tool allows you to combine the transformer architecture and weights from a donor model with the tokenizer of a target model, creating a hybrid model that can serve as a draft model in speculative decoding pipelines. By matching token-to-token or multi-token mappings between vocabularies, it intelligently transfers embeddings while preserving semantic relationships. This approach eliminates the need for expensive retraining or distillation procedures typically required for creating compatible draft models, making it an efficient solution for accelerating inference through speculative decoding techniques.
 
 ## Features
 
