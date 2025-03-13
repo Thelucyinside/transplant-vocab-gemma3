@@ -57,7 +57,7 @@ We use **C** (the final token) because:
 1. Transformers process tokens sequentially, with transformer blocks "looking backward".
 2. It's the transformer blocks that integrate context from previous tokens.
 3. Taking the mean of all tokens doesn't align with how transformers process sequences.
-4. Using the final token allows aligns with how the transformers process the previous token to create the next token.
+4. Using the final token aligns with how the transformers process the previous token to create the next token.
 
 ### Output Head (First Token Uniqueness)
 When a target token maps to multiple donor tokens:
