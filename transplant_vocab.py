@@ -148,7 +148,7 @@ def main():
 
     # Initialize new embeddings
     donor_embed_tokens = model.model.embed_tokens.weight
-    donor_lm_head = model.model.embed_tokens.weight if donor_config["tie_word_embeddings"] else model.lm_head.weight
+    donor_lm_head = model.model.embed_tokens.weight if donor_config.get("tie_word_embeddings", False) else model.lm_head.weight
 
     new_embed_tokens = torch.zeros(
         (target_vocab_size, donor_config["hidden_size"]),
