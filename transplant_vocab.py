@@ -174,7 +174,7 @@ def main():
     used_prefix_tokens = set()
 
     # Determine actual vocab size, considering tokenizer special tokens
-    actual_vocab_size = len(target_tokenizer)
+    actual_vocab_size = source_vocab_size # Changed to source_vocab_size
 
     # Configure progress display
     iterator = range(actual_vocab_size)
