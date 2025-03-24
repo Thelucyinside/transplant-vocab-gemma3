@@ -121,12 +121,37 @@ def main():
         model = load_model(args.donor_dir, torch_dtype=donor_config.get("torch_dtype", None))
 
     # Validate vocab_size and hidden_size exists
-    assert "vocab_size" in target_config, "vocab_size not found in target model config"
-    assert "hidden_size" in donor_config, "hidden_size not found in donor model config"
+        print(f"Loading config from '{source_model_path}'...")
+    source_config = AutoConfig.from_pretrained(source_model_path, trust_remote_code=True)
+    print("Done.")
 
-    # Get vocabulary sizes
-    target_vocab_size = target_config["vocab_size"]
-    actual_vocab_size = max(target_tokeniser.vocab.values()) + 1
+    print(f"Loading config from '{target_model_path}'...")
+    target_config = AutoConfig.from_pretrained(target_model_path, trust_remote_code=True)
+    print("Done.")
+
+    # Abrufen der Quell-Vokabulargröße (sowohl für flache als auch für verschachtelte Konfigurationen)
+    if "text_config" in source_config and "vocab_size" in source_config["text_config"]:
+        source_vocab_size = source_config["text_config"]["vocab_size"]
+    else:
+        assert "vocab_size" in source_config, "vocab_size not found in source model config"
+        source_vocab_size = source_config["vocab_size"]
+    print(f"Source vocab size: {source_vocab_size}")
+
+    # Abrufen der Ziel-Vokabulargröße (sowohl für flache als auch für verschachtelte Konfigurationen)
+    if "text_config" in target_config and "vocab_size" in target_config["text_config"]:
+        target_vocab_size = target_config["text_config"]["vocab_size"]
+    else:
+        assert "vocab_size" in target_config, "vocab_size not found in target model config"
+        target_vocab_size = target_config["vocab_size"]
+    print(f"Target vocab size: {target_vocab_size}")
+
+
+    print(f"Loading tokenizer from '{source_model_path}'...")
+    source_tokenizer = AutoTokenizer.from_pretrained(source_model_path, trust_remote_code=True)
+    print("Done.")
+    print(f"Loading tokenizer from '{target_model_path}'...")
+    target_tokenizer = AutoTokenizer.from_pretrained(target_model_path, trust_remote_code=True)
+    print("Done.")
 
     # Initialize new embeddings
     donor_embed_tokens = model.model.embed_tokens.weight
