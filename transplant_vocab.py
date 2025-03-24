@@ -9,7 +9,7 @@ https://huggingface.co/turboderp/Qwama-0.5B-Instruct/blob/main/vocab_transplant.
 
 import argparse
 import json
-os
+import os
 import shutil
 import sys
 from typing import Tuple, Dict
