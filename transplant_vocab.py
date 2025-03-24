@@ -242,18 +242,20 @@ def main():
         'bos_token_id': target_tokenizer.bos_token_id,
         'eos_token_id': target_tokenizer.eos_token_id,
     })
-
-    # Add pad_token_id if it exists in the target tokeniser
     if target_tokenizer.pad_token_id is not None:
         model.config.update({'pad_token_id': target_tokenizer.pad_token_id})
-
-    # Set tie_word_embeddings to False if it exists
     if hasattr(model.config, 'tie_word_embeddings'):
         model.config.update({'tie_word_embeddings': False})
 
+    # --- DEBUGGING PRINTS START ---
+    print("\n--- Debugging Before Saving ---")
+    print("Keys in new_state_dict:", new_state_dict.keys())
+    print("Model config before saving:", model.config)
+    print("--- Debugging End ---")
+
     # Save final model and tokeniser
     print(f"\nSaving model and tokeniser to {args.output_dir}")
-    model.save_pretrained(args.output_dir, state_dict=new_state_dict)
+    model.save_pretrained(args.output_dir, state_dict=new_state_dict, safe_serialization=True) # Added safe_serialization=True
     target_tokenizer.save_pretrained(args.output_dir)
 
     print("Operation completed successfully")
